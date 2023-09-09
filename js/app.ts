@@ -37,16 +37,14 @@ class Calculator {
     this.updateDisplay();
   }
 
-
   private clearDisplay() {
     this.displayValue = "0";
-    this.previousValue = null;
+    this.previousValue = "";
     this.operator = null;
     this.waitingForSecondOperand = false;
     this.decimalEntered = false;
     this.updateDisplay();
   }
-
 
   private inputDecimal() {
     if (!this.decimalEntered) {
@@ -55,7 +53,61 @@ class Calculator {
     }
   }
 
+  private performOperation(nextOperator: string) {
+    const inputValue = parseFloat(this.displayValue);
 
+    if (this.operator && this.waitingForSecondOperand) {
+      this.operator = nextOperator;
+      return;
+    }
+
+    if (this.previousValue !== null) {
+      switch (this.operator) {
+        case "soma":
+          this.previousValue = (
+            parseFloat(this.previousValue) + inputValue
+          ).toString();
+          this.displayValue = this.previousValue;
+          this.updateDisplay();
+          break;
+        case "menos":
+          this.previousValue = (
+            parseFloat(this.previousValue) - inputValue
+          ).toString();
+          this.displayValue = this.previousValue;
+          this.updateDisplay();
+          break;
+        case "multiplica":
+          this.previousValue = (
+            parseFloat(this.previousValue) * inputValue
+          ).toString();
+          this.displayValue = this.previousValue;
+          this.updateDisplay();
+          break;
+        case "divide":
+          if (inputValue !== 0) {
+            this.previousValue = (
+              parseFloat(this.previousValue) / inputValue
+            ).toString();
+            this.displayValue = this.previousValue;
+            this.updateDisplay();
+          } else {
+            this.displayValue = "Error";
+            this.updateDisplay();
+            return;
+          }
+          break;
+        default:
+          break;
+      }
+    } else {
+      this.previousValue = this.displayValue;
+    }
+
+    this.displayValue = this.previousValue;
+    this.waitingForSecondOperand = true;
+    this.operator = nextOperator;
+  }
 
   private handleButtonClick(button: Element) {
     const buttonText = button.getAttribute("id");
@@ -78,6 +130,27 @@ class Calculator {
         break;
       case "ponto":
         this.inputDecimal();
+        break;
+      case "mais":
+        this.performOperation("soma");
+        console.log("soma");
+        break;
+      case "menos":
+        this.performOperation("menos");
+        console.log("menos");
+        break;
+      case "dividido":
+        this.performOperation("divide");
+        console.log("divide");
+        break;
+      case "multiplica":
+        this.performOperation("multiplica");
+        console.log("multiplica");
+        break;
+      case "igual":
+        this.performOperation("igual");
+
+        console.log("igual");
         break;
     }
   }

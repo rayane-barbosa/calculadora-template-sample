@@ -29,7 +29,7 @@ var Calculator = /** @class */ (function () {
     };
     Calculator.prototype.clearDisplay = function () {
         this.displayValue = "0";
-        this.previousValue = null;
+        this.previousValue = "";
         this.operator = null;
         this.waitingForSecondOperand = false;
         this.decimalEntered = false;
@@ -40,6 +40,52 @@ var Calculator = /** @class */ (function () {
             this.displayValue += ".";
             this.decimalEntered = true;
         }
+    };
+    Calculator.prototype.performOperation = function (nextOperator) {
+        var inputValue = parseFloat(this.displayValue);
+        if (this.operator && this.waitingForSecondOperand) {
+            this.operator = nextOperator;
+            return;
+        }
+        if (this.previousValue !== null) {
+            switch (this.operator) {
+                case "soma":
+                    this.previousValue = (parseFloat(this.previousValue) + inputValue).toString();
+                    this.displayValue = this.previousValue;
+                    this.updateDisplay();
+                    break;
+                case "menos":
+                    this.previousValue = (parseFloat(this.previousValue) - inputValue).toString();
+                    this.displayValue = this.previousValue;
+                    this.updateDisplay();
+                    break;
+                case "multiplica":
+                    this.previousValue = (parseFloat(this.previousValue) * inputValue).toString();
+                    this.displayValue = this.previousValue;
+                    this.updateDisplay();
+                    break;
+                case "divide":
+                    if (inputValue !== 0) {
+                        this.previousValue = (parseFloat(this.previousValue) / inputValue).toString();
+                        this.displayValue = this.previousValue;
+                        this.updateDisplay();
+                    }
+                    else {
+                        this.displayValue = "Error";
+                        this.updateDisplay();
+                        return;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        else {
+            this.previousValue = this.displayValue;
+        }
+        this.displayValue = this.previousValue;
+        this.waitingForSecondOperand = true;
+        this.operator = nextOperator;
     };
     Calculator.prototype.handleButtonClick = function (button) {
         var buttonText = button.getAttribute("id");
@@ -62,6 +108,25 @@ var Calculator = /** @class */ (function () {
             case "ponto":
                 this.inputDecimal();
                 break;
+            case "mais":
+                this.performOperation("soma");
+                console.log("soma");
+                break;
+            case "menos":
+                this.performOperation("menos");
+                console.log("menos");
+                break;
+            case "dividido":
+                this.performOperation("divide");
+                console.log("divide");
+                break;
+            case "multiplica":
+                this.performOperation("multiplica");
+                console.log("multiplica");
+                break;
+            case "igual":
+                this.performOperation("igual");
+                console.log("igual");
                 break;
         }
     };

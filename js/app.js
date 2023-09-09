@@ -13,7 +13,10 @@ var Calculator = /** @class */ (function () {
             button.addEventListener("click", function () { return _this.handleButtonClick(button); });
         });
     }
-    // atualizar o display
+    Calculator.prototype.results = function () {
+        var calculateNumbers = [];
+        var operatorations = [];
+    };
     Calculator.prototype.updateDisplay = function () {
         this.display.textContent = this.displayValue;
     };
@@ -30,6 +33,12 @@ var Calculator = /** @class */ (function () {
         }
         this.updateDisplay();
     };
+    Calculator.prototype.inputDecimal = function () {
+        if (!this.decimal) {
+            this.displayValue += ".";
+            this.decimal = true;
+        }
+    };
     Calculator.prototype.handleButtonClick = function (button) {
         var buttonText = button.getAttribute("id");
         switch (buttonText) {
@@ -44,6 +53,9 @@ var Calculator = /** @class */ (function () {
             case "8":
             case "9":
                 this.inputDigit(buttonText);
+                break;
+            case "ponto":
+                this.inputDecimal();
         }
     };
     return Calculator;

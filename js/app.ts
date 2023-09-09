@@ -3,24 +3,16 @@ class Calculator {
   private displayValue: string;
   private previousValue: string | null;
   private operator: string | null;
-  private waitingForSecondValue: boolean;
-  private decimal: boolean;
-
-
-  private results (){
-  let calculateNumbers: number[] = [];
-  let operatorations: string[] = [];
-
-  }
-
+  private waitingForSecondOperand: boolean;
+  private decimalEntered: boolean;
 
   constructor() {
     this.display = document.getElementById("display") as HTMLSpanElement;
     this.displayValue = "0";
     this.previousValue = null;
     this.operator = null;
-    this.waitingForSecondValue = false;
-    this.decimal = false;
+    this.waitingForSecondOperand = false;
+    this.decimalEntered = false;
     this.updateDisplay();
 
     const buttons = document.querySelectorAll(".tecla");
@@ -34,10 +26,9 @@ class Calculator {
   }
 
   private inputDigit(digit: string) {
-    if (this.displayValue.length >= 8) return;
-    if (this.waitingForSecondValue) {
+    if (this.waitingForSecondOperand) {
       this.displayValue = digit;
-      this.waitingForSecondValue = false;
+      this.waitingForSecondOperand = false;
     } else {
       this.displayValue =
         this.displayValue === "0" ? digit : this.displayValue + digit;
@@ -46,19 +37,33 @@ class Calculator {
     this.updateDisplay();
   }
 
-  private inputDecimal() {
-    if (!this.decimal) {
-      this.displayValue += ".";
-      this.decimal = true;
 
+  private clearDisplay() {
+    this.displayValue = "0";
+    this.previousValue = null;
+    this.operator = null;
+    this.waitingForSecondOperand = false;
+    this.decimalEntered = false;
+    this.updateDisplay();
+  }
+
+
+  private inputDecimal() {
+    if (!this.decimalEntered) {
+      this.displayValue += ".";
+      this.decimalEntered = true;
     }
   }
+
 
 
   private handleButtonClick(button: Element) {
     const buttonText = button.getAttribute("id");
 
     switch (buttonText) {
+      case "on":
+        this.clearDisplay();
+        break;
       case "0":
       case "1":
       case "2":
@@ -71,8 +76,9 @@ class Calculator {
       case "9":
         this.inputDigit(buttonText);
         break;
-        case "ponto":
-          this.inputDecimal();
+      case "ponto":
+        this.inputDecimal();
+        break;
     }
   }
 }

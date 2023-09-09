@@ -5,27 +5,21 @@ var Calculator = /** @class */ (function () {
         this.displayValue = "0";
         this.previousValue = null;
         this.operator = null;
-        this.waitingForSecondValue = false;
-        this.decimal = false;
+        this.waitingForSecondOperand = false;
+        this.decimalEntered = false;
         this.updateDisplay();
         var buttons = document.querySelectorAll(".tecla");
         buttons.forEach(function (button) {
             button.addEventListener("click", function () { return _this.handleButtonClick(button); });
         });
     }
-    Calculator.prototype.results = function () {
-        var calculateNumbers = [];
-        var operatorations = [];
-    };
     Calculator.prototype.updateDisplay = function () {
         this.display.textContent = this.displayValue;
     };
     Calculator.prototype.inputDigit = function (digit) {
-        if (this.displayValue.length >= 8)
-            return;
-        if (this.waitingForSecondValue) {
+        if (this.waitingForSecondOperand) {
             this.displayValue = digit;
-            this.waitingForSecondValue = false;
+            this.waitingForSecondOperand = false;
         }
         else {
             this.displayValue =
@@ -33,15 +27,26 @@ var Calculator = /** @class */ (function () {
         }
         this.updateDisplay();
     };
+    Calculator.prototype.clearDisplay = function () {
+        this.displayValue = "0";
+        this.previousValue = null;
+        this.operator = null;
+        this.waitingForSecondOperand = false;
+        this.decimalEntered = false;
+        this.updateDisplay();
+    };
     Calculator.prototype.inputDecimal = function () {
-        if (!this.decimal) {
+        if (!this.decimalEntered) {
             this.displayValue += ".";
-            this.decimal = true;
+            this.decimalEntered = true;
         }
     };
     Calculator.prototype.handleButtonClick = function (button) {
         var buttonText = button.getAttribute("id");
         switch (buttonText) {
+            case "on":
+                this.clearDisplay();
+                break;
             case "0":
             case "1":
             case "2":
@@ -56,6 +61,8 @@ var Calculator = /** @class */ (function () {
                 break;
             case "ponto":
                 this.inputDecimal();
+                break;
+                break;
         }
     };
     return Calculator;

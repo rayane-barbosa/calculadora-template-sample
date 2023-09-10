@@ -133,24 +133,22 @@ class Calculator {
         break;
       case "mais":
         this.performOperation("soma");
-        console.log("soma");
         break;
       case "menos":
         this.performOperation("menos");
-        console.log("menos");
+
         break;
       case "dividido":
         this.performOperation("divide");
-        console.log("divide");
+
         break;
       case "multiplica":
         this.performOperation("multiplica");
-        console.log("multiplica");
+
         break;
       case "igual":
         this.performOperation("igual");
 
-        console.log("igual");
         break;
     }
   }

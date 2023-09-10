@@ -1,0 +1,11 @@
+{
+  "name": "calculadora-template-sample",
+  "version": "1.0.0",
+  "description": "Calculadora simples em TypeScript",
+  "repository": "https://github.com/rayane-barbosa/calculadora-template-sample",
+  "author": "Rayane Barbosa <82448039+rayane-barbosa@users.noreply.github.com>",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}

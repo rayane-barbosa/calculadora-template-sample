@@ -1,4 +1,4 @@
-# calculadora-template-sample
+# Tech Empower - Avaliação 1
 
 Nesta avaliação foi executado o desafio de criar uma calculadora a partir de uma layout pronto.
 
